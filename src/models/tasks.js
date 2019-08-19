@@ -1,4 +1,5 @@
 import knex from "../config/knex";
+import { log } from "util";
 
 const table_name = "tasks";
 
@@ -15,7 +16,10 @@ class Task {
     return knex(table_name)
       .where("oid", id)
       .select()
-      .then(results => Task.deserialize(results))
+      .then(results => {
+        if (results.length == 0) return [];
+        else return Task.deserialize(results);
+      })
       .catch(err => err);
   }
 
@@ -42,6 +46,7 @@ class Task {
   }
 
   static deserialize(json) {
+    if (json.length == undefined || json.length == 0) return {};
     return json.map(data => {
       let task = new Task();
       task.oid = data.oid ? data.oid : 0;
