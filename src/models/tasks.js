@@ -1,9 +1,38 @@
 import knex from "../config/knex";
-import { log } from "util";
 
 const table_name = "tasks";
 
 class Task {
+  static delete(oid) {
+    return knex(table_name)
+      .where("oid", oid)
+      .andWhere("delete", false)
+      .update("delete", true)
+      .then(tasks_deleted => {
+        if (tasks_deleted > 0) return Task.getById(oid);
+        else return [];
+      })
+      .catch(error => []);
+  }
+  static undelete(oid) {
+    return knex(table_name)
+      .where("oid", oid)
+      .andWhere("delete", true)
+      .update("delete", false)
+      .then(tasks_undeleted => {
+        if (tasks_undeleted > 0) return Task.getById(oid);
+        else return [];
+      })
+      .catch(error => []);
+  }
+
+  static create(data) {
+    return knex(table_name)
+      .insert(data)
+      .then(oid => oid)
+      .catch(err => -1);
+  }
+
   static getAll() {
     return knex
       .from(table_name)
@@ -53,7 +82,7 @@ class Task {
       task.title = data.title ? data.title : "";
       task.description = data.description ? data.description : "";
       task.done = data.done ? true : false;
-      task.delete = data.delete ? data.delete : false;
+      task.delete = data.delete ? true : false;
       return task;
     });
   }
