@@ -26,12 +26,14 @@
   "author": "L A MINORA",
   "license": "ISC",
   "dependencies": {
+    "@hapi/basic": "^5.1.1",
     "@hapi/hapi": "^18.3.1",
     "@hapi/joi": "^15.1.0",
     "babel-core": "^6.26.3",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "bcrypt": "^3.0.6",
     "hapi-router": "^5.0.0",
     "knex": "^0.19.1",
     "sqlite3": "^4.0.2"
