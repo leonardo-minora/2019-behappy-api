@@ -1,5 +1,5 @@
 import Hapi from "@hapi/hapi";
-import { User } from "../../models";
+import { User } from "./models";
 
 const server = new Hapi.Server({
   port: process.env.PORT || 8000,
@@ -7,21 +7,28 @@ const server = new Hapi.Server({
 });
 
 const validate = async (request, username, password) => {
-  if (!User.login(username, password)) return { credentials: null, isValid: false };
-  return { credentials: {}, isValid: true };
+  const user = await User.login(username, password)
+
+  if (user == undefined) {
+    return { credentials: null, isValid: false };
+  }
+  return { credentials: {id: user.oid, username: user.login}, isValid: true };
 };
 
 const init = async () => {
-  await server.register([{
+  await server.register([
+    {
+      plugin: require("@hapi/basic")
+    }
+  ]);
+  server.auth.strategy('simple', 'basic', { validate });
+
+  await server.register({
     plugin: require("hapi-router"),
     options: {
       routes: "src/routes/**/*.js"
     }
-  },
-  {
-    plugin: require("@hapi/basic"),
-  }]);
-  server.auth.strategy('simple', 'basic', { validate });
+  });
 
   await server.start();
   console.log("Server is running");
