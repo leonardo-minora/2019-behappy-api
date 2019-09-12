@@ -1,6 +1,7 @@
 import Task from "./tasks";
+import Token from "./tokens";
+import User from "./users";
 import What from "./what";
 import Who from "./who";
-import User from "./users";
 
-export { Task, User, What, Who };
+export { Task, Token, User, What, Who };
