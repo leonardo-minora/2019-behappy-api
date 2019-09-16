@@ -12,7 +12,7 @@ const basic_validate = async (request, username, password) => {
   if (user == undefined) {
     return { credentials: null, isValid: false };
   }
-  token = Token.add(user);
+  const token = Token.add(user);
   return { credentials: {id: user.oid, username: user.login, token: token}, isValid: true };
 };
 
