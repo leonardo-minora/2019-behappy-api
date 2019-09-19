@@ -17,7 +17,7 @@ const basic_validate = async (request, username, password) => {
 };
 
 const token_validate = async (user, request) => {
-  token = tokens.findByUser(user);
+  const token = Token.findByUser(user);
   if (token == undefined) {
     return { credentials: null, isValid: false };
   } else {
