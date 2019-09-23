@@ -17,7 +17,7 @@ const basic_validate = async (request, username, password) => {
 };
 
 const token_validate = async (user, request) => {
-  token = tokens.findByUser(user);
+  const token = Token.findByUser(user);
   if (token == undefined) {
     return { credentials: null, isValid: false };
   } else {
@@ -28,7 +28,7 @@ const token_validate = async (user, request) => {
 
 const init = async () => {
   await server.register([require("@hapi/basic"), require("hapi-auth-jwt2")]);
-  server.auth.strategy('simple', 'basic', { validate: basic_validate });
+  server.auth.strategy("simple", "basic", { validate: basic_validate });
   server.auth.strategy("token", "jwt", {
     key: Token.secret, 
     validate: token_validate, 

@@ -34,6 +34,9 @@ const responde_code_builder = data => {
 export default {
   method: "GET",
   path: "/tasks/{task_id}",
+  options: {
+    auth: "token"
+  },
   handler: (request, reply) => {
     return Task.getById(request.params.task_id).then(tasks =>
       reply.response(response_builder(tasks)).code(responde_code_builder(tasks))
