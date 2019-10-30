@@ -37,6 +37,7 @@
     "@hapi/joi": "^15.1.0",
     "bcrypt": "^3.0.6",
     "hapi-auth-jwt2": "^8.6.2",
+    "hapi-cors": "^1.0.3",
     "hapi-router": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.1",

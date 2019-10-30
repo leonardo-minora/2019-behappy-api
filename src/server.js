@@ -3,12 +3,11 @@ import { User, Token } from "./models";
 
 const server = new Hapi.Server({
   port: process.env.PORT || 8000,
+  headers: {
+    "Content-Type": "application/json"
+  },
   routes: {
-    cors: {
-      origin: ["*"],
-      headers: ["Accept", "Content-type"],
-      additionalHeaders: ["X-Requested-With"]
-    }
+    cors: true
   },
   debug: { request: ["*"] }
 });
@@ -45,12 +44,20 @@ const init = async () => {
     verifyOptions: { algorithms: ["HS256"] }
   });
 
-  await server.register({
-    plugin: require("hapi-router"),
-    options: {
-      routes: "src/routes/**/*.js"
+  await server.register([
+    {
+      plugin: require("hapi-router"),
+      options: {
+        routes: "src/routes/**/*.js"
+      }
+    },
+    {
+      plugin: require("hapi-cors"),
+      options: {
+        origins: ["*"]
+      }
     }
-  });
+  ]);
 
   await server.start();
   console.log("Server is running");
