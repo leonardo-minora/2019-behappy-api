@@ -3,12 +3,6 @@ import { User, Token } from "./models";
 
 const server = new Hapi.Server({
   port: process.env.PORT || 8000,
-  headers: {
-    "Content-Type": "application/json"
-  },
-  routes: {
-    cors: true
-  },
   debug: { request: ["*"] }
 });
 
